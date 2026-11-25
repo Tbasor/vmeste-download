@@ -19,7 +19,7 @@
   .hero { position: relative; overflow: hidden; text-align: center; padding: 34px 16px 96px;
     background: radial-gradient(70% 60% at 50% 110%, rgba(229, 9, 20, .35), transparent 70%), #000; }
   .wordmark { font-weight: 900; font-size: 22px; letter-spacing: .06em; color: var(--red); text-transform: uppercase; text-shadow: 0 0 22px rgba(229, 9, 20, .35); }
-  .seats { display: block; width: min(560px, 100%); height: auto; margin: 6px auto -4px; }
+  .seats { display: block; width: min(820px, 112%); height: auto; margin: -10px auto -34px; position: relative; left: 50%; transform: translateX(-50%); }
   h1 { font-size: clamp(36px, 6vw, 58px); line-height: 1.03; margin: 0 0 10px; letter-spacing: -.02em; font-weight: 900; }
   h1 span { color: var(--red); }
   .tagline { font-size: 19px; color: #d2d2d2; margin: 0 auto 28px; max-width: 34ch; }
@@ -72,7 +72,7 @@
 <body>
 <header class="hero">
   <div class="wordmark">Вместе</div>
-  <img class="seats" src="seats.svg" alt="Два кресла кинотеатра подъезжают друг к другу по проводу">
+  <img class="seats" src="city.svg" alt="Ночной город с высоты: кресла с разных концов города стягиваются кабелем в один ряд">
   <h1>Кино вдвоём. <span>Даже на расстоянии.</span></h1>
   <p class="tagline">Фильмы, сериалы и видео с друзьями — синхронно, с голосом и чатом. Как будто вы сидите рядом.</p>
   <a class="primary" id="primary" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/Vmeste-AppleSilicon.dmg">
