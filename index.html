@@ -3,226 +3,325 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Вместе — видео с друзьями</title>
-<meta name="description" content="Смотрите фильмы, сериалы и видео с друзьями синхронно — с голосом и чатом. Mac, Windows, Linux, Android, Android TV и браузер.">
+<title>Вместе — приложения для компьютера, телефона и телевизора</title>
+<meta name="description" content="«Вместе» работает в браузере без установки. Приложение для компьютера показывает друзьям фильмы с вашего диска, «Вместе Сервер» открывает вашу медиатеку на телевизоре и телефоне.">
 <meta name="theme-color" content="#000000">
-<meta property="og:title" content="Вместе — видео с друзьями">
-<meta property="og:description" content="Фильмы и сериалы с друзьями синхронно, с голосом и чатом.">
+<meta property="og:title" content="Вместе — приложения">
+<meta property="og:description" content="Для компьютера, телефона и телевизора. В браузере работает без установки.">
 <meta property="og:image" content="icon.png">
 <link rel="icon" href="icon.png">
 <style>
-  :root { --red: #e50914; --red-hi: #ff1f2b; --bg: #000; --card: #121213; --card-2: #1b1b1c; --text: #f5f5f1; --muted: #a3a3a3; --line: rgba(255, 255, 255, .09); color-scheme: dark; }
+  /* The same type and colours as vmeste.red: black, warm greys, one red button. No animations. */
+  @font-face { font-family: "Onest"; font-style: normal; font-weight: 400 900; font-display: swap; src: url(onest-cyrillic.woff2) format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+  @font-face { font-family: "Onest"; font-style: normal; font-weight: 400 900; font-display: swap; src: url(onest-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+  @font-face { font-family: "Unbounded"; font-style: normal; font-weight: 500 900; font-display: swap; src: url(unbounded-cyrillic.woff2) format("woff2"); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+  :root { --red: #e50914; --text: #fff; --soft: #d6d1cd; --muted: #a9a4a0; --faint: #8f8a86; --card: #0e0e10; --line: rgba(255, 255, 255, 0.09); color-scheme: dark; }
   * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
-  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; }
-  a { color: #ff6b73; }
-  .hero { position: relative; overflow: hidden; text-align: center; padding: 34px 16px 96px;
-    background: radial-gradient(70% 60% at 50% 110%, rgba(229, 9, 20, .35), transparent 70%), #000; }
-  .wordmark { font-weight: 900; font-size: 22px; letter-spacing: .06em; color: var(--red); text-transform: uppercase; text-shadow: 0 0 22px rgba(229, 9, 20, .35); }
-  .seats { display: block; width: min(820px, 112%); height: auto; margin: -10px auto -34px; position: relative; left: 50%; transform: translateX(-50%); }
-  h1 { font-size: clamp(36px, 6vw, 58px); line-height: 1.03; margin: 0 0 10px; letter-spacing: -.02em; font-weight: 900; }
-  h1 span { color: var(--red); }
-  .tagline { font-size: 19px; color: #d2d2d2; margin: 0 auto 28px; max-width: 34ch; }
-  .primary { display: inline-flex; align-items: center; gap: 10px; background: var(--red); color: #fff; text-decoration: none; font-weight: 800; font-size: 19px;
-    padding: 16px 30px; border-radius: 6px; transition: background .15s, box-shadow .2s, transform .2s; }
-  .primary:hover { background: var(--red-hi); box-shadow: 0 10px 34px rgba(229, 9, 20, .45); }
-  .primary:active { transform: scale(.97); }
-  .primary svg { width: 22px; height: 22px; }
-  .sub { margin-top: 14px; font-size: 14px; color: var(--muted); }
-  .sub a { color: #fff; }
-  main { max-width: 960px; margin: -54px auto 0; padding: 0 16px 48px; position: relative; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 12px; }
-  .card { background: var(--card); border-radius: 10px; padding: 22px; border: 1px solid var(--line); transition: transform .25s, border-color .2s, background .2s; }
-  .card:hover { transform: translateY(-3px); border-color: rgba(255, 255, 255, .18); background: #161617; }
-  .card h2 { font-size: 20px; margin: 0 0 4px; display: flex; align-items: center; gap: 10px; font-weight: 800; }
-  .ic { width: 36px; height: 36px; border-radius: 6px; display: grid; place-items: center; color: #fff; flex: none; background: var(--red); }
-  .ic svg { width: 20px; height: 20px; }
-  .card p { margin: 6px 0 16px; color: var(--muted); font-size: 14px; }
-  .btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; text-decoration: none; background: var(--red);
-    color: #fff !important; font-weight: 700; padding: 12px 16px; border-radius: 6px; transition: background .15s; }
-  .btn:hover { background: var(--red-hi); }
-  .btn.ghost { background: rgba(109, 109, 110, .4); margin-top: 8px; }
-  .btn.ghost:hover { background: rgba(109, 109, 110, .6); }
-  .btn.off { background: rgba(109, 109, 110, .25); color: var(--muted) !important; pointer-events: none; }
-  details { margin-top: 12px; font-size: 14px; }
-  summary { cursor: pointer; color: #ff6b73; font-weight: 700; list-style: none; }
+  html { background: #000; -webkit-text-size-adjust: 100%; scroll-behavior: auto; }
+  body { margin: 0; color: var(--soft); font: 400 16px/1.55 "Onest", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #fff; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+
+  .top { display: flex; align-items: center; justify-content: space-between; padding: 24px 0; }
+  .wordmark { font: 900 24px/1 "Unbounded", "Onest", sans-serif; letter-spacing: 0.04em; text-transform: uppercase; color: var(--red); text-decoration: none; }
+  .top-link { font-size: 14px; color: var(--muted); text-decoration: none; }
+  .top-link:hover { color: #fff; }
+
+  .hero { padding: 40px 0 56px; max-width: 760px; }
+  .eyebrow { margin: 0 0 14px; font-size: 12px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--faint); }
+  h1 { margin: 0 0 16px; font-size: 40px; font-size: clamp(32px, 5.4vw, 52px); font-weight: 800; line-height: 1.06; letter-spacing: -0.035em; color: #fff; }
+  .lead { margin: 0 0 28px; font-size: 18px; line-height: 1.5; color: var(--soft); max-width: 620px; }
+  .hero-acts { display: flex; flex-wrap: wrap; align-items: center; margin: -6px; }
+  .hero-acts > * { margin: 6px; }
+  .primary { display: inline-flex; align-items: center; height: 52px; padding: 0 24px; border-radius: 12px; background: var(--red); color: #fff; font-weight: 600; font-size: 16px; letter-spacing: -0.01em; text-decoration: none; }
+  .primary:hover { background: #f4212c; }
+  .primary svg { width: 20px; height: 20px; margin-right: 10px; flex: none; }
+  .second { display: inline-flex; align-items: center; height: 52px; padding: 0 22px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.18); color: #fff; font-weight: 500; font-size: 16px; text-decoration: none; }
+  .second:hover { background: rgba(255, 255, 255, 0.08); }
+  .sub { margin: 16px 0 0; font-size: 14px; color: var(--faint); }
+  .sub a { color: var(--soft); }
+
+  section { padding: 48px 0; border-top: 1px solid var(--line); }
+  h2 { margin: 0 0 8px; font-size: 28px; font-weight: 800; line-height: 1.15; letter-spacing: -0.03em; color: #fff; }
+  .sec-lead { margin: 0 0 28px; font-size: 16px; color: var(--muted); max-width: 640px; }
+  .grid { display: grid; grid-gap: 12px; gap: 12px; }
+  .g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  /* «Что вам нужно»: four wishes, each with the answer and where to go */
+  .want { display: flex; flex-direction: column; padding: 22px; border-radius: 16px; background: var(--card); border: 1px solid var(--line); }
+  .want .q { margin: 0 0 10px; font-size: 18px; font-weight: 600; line-height: 1.3; letter-spacing: -0.015em; color: #fff; }
+  .want .a { margin: 0 0 16px; font-size: 14px; line-height: 1.5; color: var(--muted); flex: 1; }
+  .want .a b { color: var(--soft); font-weight: 600; }
+  .go { align-self: flex-start; font-size: 14px; font-weight: 500; color: #fff; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(255, 255, 255, 0.35); }
+  .go:hover { text-decoration-color: #fff; }
+
+  /* what the thing adds: three plain facts */
+  .facts { margin: 0 0 28px; padding: 0; list-style: none; }
+  .facts li { padding: 18px 20px; border-radius: 16px; background: var(--card); border: 1px solid var(--line); font-size: 14px; line-height: 1.5; color: var(--muted); }
+  .facts b { display: block; margin-bottom: 4px; font-size: 16px; font-weight: 600; letter-spacing: -0.01em; color: #fff; }
+
+  .card { padding: 22px; border-radius: 16px; background: var(--card); border: 1px solid var(--line); }
+  .card h3 { margin: 0 0 4px; font-size: 18px; font-weight: 600; letter-spacing: -0.015em; color: #fff; }
+  .card > p { margin: 0 0 16px; font-size: 14px; color: var(--muted); }
+  .btn { display: flex; align-items: center; justify-content: center; min-height: 44px; margin-top: 8px; padding: 8px 14px; border-radius: 10px; background: rgba(255, 255, 255, 0.1); color: #fff; font-size: 14px; font-weight: 500; text-align: center; text-decoration: none; }
+  .btn:hover { background: rgba(255, 255, 255, 0.18); }
+  .btn.alt { background: none; border: 1px solid rgba(255, 255, 255, 0.14); color: var(--soft); }
+  .btn.alt:hover { background: rgba(255, 255, 255, 0.06); color: #fff; }
+  .btn.off { background: none; border: 1px dashed rgba(255, 255, 255, 0.16); color: var(--faint); pointer-events: none; }
+  details { margin-top: 14px; font-size: 14px; }
+  summary { cursor: pointer; color: var(--soft); font-weight: 500; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(255, 255, 255, 0.3); list-style: none; }
   summary::-webkit-details-marker { display: none; }
-  summary::before { content: "›"; display: inline-block; margin-right: 6px; transition: transform .2s; }
-  details[open] summary::before { transform: rotate(90deg); }
-  details ol { padding-left: 20px; margin: 8px 0 0; color: #d2d2d2; }
-  details li { margin: 4px 0; }
-  code { background: rgba(255, 255, 255, .08); padding: 1px 6px; border-radius: 4px; font-size: 13px; }
-  h3 { font-size: 26px; margin: 38px 0 14px; font-weight: 900; letter-spacing: -.01em; }
-  .steps { counter-reset: s; display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
-  .step { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px 16px 16px 62px; position: relative; font-size: 15px; }
-  .step::before { counter-increment: s; content: counter(s); position: absolute; left: 16px; top: 16px; width: 32px; height: 32px; border-radius: 6px;
-    background: var(--red); color: #fff; display: grid; place-items: center; font-weight: 800; }
-  .step b { display: block; margin-bottom: 2px; }
-  .step span { color: var(--muted); }
-  .features { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-  .feature { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px; font-size: 14px; color: var(--muted); }
-  .feature b { display: block; color: var(--text); font-size: 15px; margin-bottom: 2px; }
-  .feature .e { font-size: 24px; display: block; margin-bottom: 6px; }
-  .note { margin-top: 28px; background: var(--card); border-left: 3px solid var(--red); border-radius: 6px; padding: 16px 18px; font-size: 14px; color: var(--muted); }
-  .note b { color: var(--text); }
-  footer { text-align: center; color: #6b6b6b; font-size: 13px; padding: 8px 16px 40px; }
-  @media (max-width: 480px) { .hero { padding-top: 26px; } .tagline { font-size: 17px; } }
+  details[open] summary { color: #fff; }
+  details ol { margin: 10px 0 0; padding-left: 20px; color: var(--muted); }
+  details li { margin: 6px 0; }
+  details p { margin: 10px 0 0; color: var(--muted); }
+  code { padding: 1px 6px; border-radius: 6px; background: rgba(255, 255, 255, 0.08); font: 13px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--soft); overflow-wrap: anywhere; }
+
+  /* the app or the server: two columns that answer «which one» */
+  .versus { margin-bottom: 28px; }
+  .versus > div { padding: 18px 20px; border-radius: 16px; border: 1px solid var(--line); font-size: 14px; line-height: 1.5; color: var(--muted); }
+  .versus b { display: block; margin-bottom: 4px; font-size: 16px; font-weight: 600; color: #fff; }
+  .steps { margin: 0 0 28px; padding: 0; list-style: none; counter-reset: s; }
+  .steps li { position: relative; padding: 18px 20px 18px 62px; border-radius: 16px; background: var(--card); border: 1px solid var(--line); font-size: 14px; line-height: 1.5; color: var(--muted); counter-increment: s; }
+  .steps li::before { content: counter(s); position: absolute; left: 20px; top: 18px; width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.22); color: #fff; font-size: 14px; font-weight: 600; line-height: 26px; text-align: center; }
+  .steps b { display: block; margin-bottom: 2px; font-size: 16px; font-weight: 600; color: #fff; }
+  .files { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .files .btn { margin-top: 0; }
+  .small { margin: 16px 0 0; font-size: 14px; color: var(--faint); max-width: 700px; }
+
+  .note { margin: 0; padding: 20px 22px; border-radius: 16px; background: var(--card); border: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+  .note b { color: #fff; font-weight: 600; }
+  footer { display: flex; flex-wrap: wrap; align-items: center; padding: 28px 0 44px; border-top: 1px solid var(--line); font-size: 14px; color: var(--faint); }
+  footer .wordmark { font-size: 16px; margin-right: 18px; }
+  footer a { margin-left: 18px; color: var(--muted); text-decoration: none; }
+  footer a:hover { color: #fff; }
+  footer .sp { flex: 1; }
+
+  @media (max-width: 860px) {
+    .g3, .files { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 600px) {
+    .wrap { padding: 0 16px; }
+    .hero { padding: 20px 0 40px; }
+    .lead { font-size: 16px; }
+    section { padding: 36px 0; }
+    h2 { font-size: 24px; }
+    .g2, .g3, .files { grid-template-columns: minmax(0, 1fr); }
+    .primary, .second { width: 100%; justify-content: center; }
+    .hero-acts { display: block; margin: 0; }
+    .hero-acts > * { margin: 0 0 10px; }
+    footer .sp { flex-basis: 100%; height: 10px; }
+    footer a { margin: 0 18px 0 0; }
+  }
 </style>
 </head>
 <body>
-<header class="hero">
-  <div class="wordmark">Вместе</div>
-  <img class="seats" src="city.svg" alt="Ночной город с высоты: кресла с разных концов города стягиваются кабелем в один ряд">
-  <h1>Вместе смотрим. <span>Вместе обсуждаем.</span></h1>
-  <p class="tagline">Фильмы, сериалы, YouTube и стримы — синхронно у всех в комнате, с голосом, чатом и реакциями. Зовите друзей и семью — сколько угодно человек.</p>
-  <a class="primary" id="primary" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/Vmeste-AppleSilicon.dmg">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.6-1-2.6-3.9zM14 5.5c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.6 2.8-1.4z"/></svg>
-    <span id="primary-label">Скачать для Mac (M1–M5)</span>
-  </a>
-  <div class="sub" id="sub">macOS 13 и новее · <a id="other-arch" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/Vmeste-Intel.dmg">у меня Mac с Intel</a> · <a href="https://vmeste.red/">или откройте в браузере</a></div>
-</header>
+<div class="wrap">
+  <header class="top">
+    <a class="wordmark" href="https://vmeste.red/">Вместе</a>
+    <a class="top-link" href="https://vmeste.red/">Открыть в браузере →</a>
+  </header>
 
-<main id="all">
-  <div class="grid">
-    <div class="card" id="card-mac">
-      <h2><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></span>Mac</h2>
-      <p>macOS 13 и новее. Комната в своём окне, раздача фильмов из выбранной папки, значок в строке меню.</p>
-      <a class="btn" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/Vmeste-AppleSilicon.dmg">Apple Silicon (M1–M5)</a>
-      <a class="btn ghost" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/Vmeste-Intel.dmg">Intel</a>
-      <details>
-        <summary>Какой у меня Mac?</summary>
-        <p style="margin:8px 0 0">Меню  → «Об этом Mac». «Чип: Apple M…» — Apple Silicon. «Процессор: Intel…» — Intel.</p>
-      </details>
-      <details>
-        <summary>Как установить</summary>
-        <ol>
-          <li>Откройте скачанный <b>.dmg</b> и перетащите «Вместе» в «Программы».</li>
-          <li>Запустите — в окне выберите папку с фильмами.</li>
-          <li>Значок дивана появится в строке меню. Закрытое окно продолжает раздавать фильм.</li>
-        </ol>
-      </details>
+  <div class="hero">
+    <p class="eyebrow">Приложения</p>
+    <h1>«Вместе» для компьютера, телефона и телевизора</h1>
+    <p class="lead">Смотреть с друзьями можно прямо в браузере — ставить ничего не нужно. Приложение пригодится, если хотите показать фильм со своего компьютера или смотреть на телевизоре.</p>
+    <div class="hero-acts">
+      <a class="primary" id="primary" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/Vmeste-AppleSilicon.dmg">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>
+        <span id="primary-label">Скачать для Mac (M1–M5)</span>
+      </a>
+      <a class="second" id="second" href="https://vmeste.red/">Открыть в браузере</a>
     </div>
-    <div class="card" id="card-windows">
-      <h2><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5.5 10.5 4.5v7H3zM12 4.3 21 3v8.5h-9zM3 12.5h7.5v7L3 18.5zM12 12.5h9V21l-9-1.3z" fill="#fff" stroke="none"/></svg></span>Windows</h2>
-      <p>Windows 10 и 11, 64-бит. Комната в своём окне и раздача фильмов, значок в трее рядом с часами.</p>
-      <a class="btn" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/Vmeste-Setup.exe">Скачать установщик</a>
-      <a class="btn ghost" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/Vmeste-windows.zip">Без установки (zip)</a>
-      <details>
-        <summary>Как установить</summary>
-        <ol>
-          <li>Запустите <b>Vmeste-Setup.exe</b>.</li>
-          <li>Если появится «Система Windows защитила ваш компьютер» — «Подробнее» → «Выполнить в любом случае».</li>
-          <li>В окне «Вместе» выберите папку с фильмами. Брандмауэр может спросить про доступ к сети — разрешите.</li>
-        </ol>
-      </details>
-    </div>
-    <div class="card" id="card-linux">
-      <h2><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><circle cx="4.5" cy="12" r="1.6" fill="#fff"/><circle cx="16" cy="5.5" r="1.6" fill="#fff"/><circle cx="16" cy="18.5" r="1.6" fill="#fff"/></svg></span>Ubuntu и Linux</h2>
-      <p>Ubuntu 22.04+, Debian 12+, 64-бит. То же, что на Windows: комната, раздача, значок в трее.</p>
-      <a class="btn" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/vmeste_amd64.deb">Скачать .deb</a>
-      <a class="btn ghost" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/Vmeste-x86_64.AppImage">AppImage для других</a>
-      <details>
-        <summary>Как установить</summary>
-        <ol>
-          <li><code>sudo apt install ./vmeste_amd64.deb</code></li>
-          <li>Или AppImage: <code>chmod +x Vmeste-x86_64.AppImage</code> и запустить.</li>
-        </ol>
-      </details>
-    </div>
-    <div class="card" id="card-android">
-      <h2><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></svg></span>Android</h2>
-      <p>Android 8 и новее. Комната, звонок и чат на телефоне, ссылки-приглашения открываются в приложении.</p>
-      <a class="btn" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/Vmeste.apk">Скачать APK</a>
-      <details>
-        <summary>Как установить</summary>
-        <ol>
-          <li>Откройте скачанный <b>Vmeste.apk</b>.</li>
-          <li>Если Android попросит, разрешите установку из этого источника и вернитесь назад.</li>
-          <li>При первом запуске разрешите микрофон — он нужен для звонка.</li>
-        </ol>
-      </details>
-    </div>
-    <div class="card" id="card-tv">
-      <h2><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>Android TV</h2>
-      <p>Android TV и Google TV (Sony, Philips, TCL, Xiaomi Mi Box, Chromecast с Google TV). Управление пультом, голос — на телефоне.</p>
-      <a class="btn" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/Vmeste-TV.apk">Скачать APK для ТВ</a>
-      <details>
-        <summary>Как установить на телевизор</summary>
-        <ol>
-          <li>На телевизоре установите из Google Play приложение <b>Downloader</b> (или «Send files to TV»).</li>
-          <li>В настройках ТВ разрешите установку из неизвестных источников для этого приложения.</li>
-          <li>В Downloader откройте адрес <code>tbasor.github.io/vmeste-download</code> и скачайте «APK для ТВ».</li>
-          <li>«Вместе» появится в списке приложений. Звонок и чат удобнее держать на телефоне.</li>
-        </ol>
-      </details>
-    </div>
-    <div class="card" id="card-server">
-      <h2><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/></svg></span>Вместе Сервер</h2>
-      <p>Ваша медиатека в фоне: компьютер с фильмами даёт ссылку <code>vmeste://lib/…</code> с паролем — вставьте её в «Вместе» на телефоне, телевизоре или в браузере и смотрите оттуда.</p>
-      <a class="btn" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/VmesteServer-AppleSilicon.dmg">Mac (M1–M5)</a>
-      <a class="btn ghost" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/VmesteServer-Intel.dmg">Mac с Intel</a>
-      <a class="btn ghost" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/VmesteServer-Setup.exe">Windows</a>
-      <a class="btn ghost" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/vmeste-server_amd64.deb">Linux (.deb)</a>
-      <a class="btn ghost" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/VmesteServer-x86_64.AppImage">Linux (AppImage)</a>
-      <details>
-        <summary>Как это работает</summary>
-        <ol>
-          <li>Установите «Вместе Сервер» на компьютер, где лежат фильмы, выберите папки и задайте пароль.</li>
-          <li>Скопируйте ссылку <code>vmeste://lib/…</code> из окна или из значка в трее.</li>
-          <li>В «Вместе» вставьте её в поле «Код комнаты или ссылка», введите пароль — появится список фильмов.</li>
-          <li>Фильм идёт напрямую с вашего компьютера; можно позвать друзей в ту же комнату.</li>
-        </ol>
-        <p>Linux: <code>sudo apt install ./vmeste-server_amd64.deb</code> (Ubuntu 22.04+, Debian 12+) или AppImage — <code>chmod +x VmesteServer-x86_64.AppImage</code> и запустить. Нужен рабочий стол (GNOME, KDE…). Если значка в трее не видно, снова откройте «Вместе Сервер» из меню приложений — появятся настройки.</p>
-      </details>
-    </div>
-    <div class="card" id="card-iphone">
-      <h2><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg></span>iPhone</h2>
-      <p>Звонок, чат и пульт на телефоне, пока фильм идёт на большом экране. Пока по приглашению в TestFlight.</p>
-      <a class="btn off" href="#">Скоро в App Store</a>
-    </div>
-    <div class="card" id="card-web">
-      <h2><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span>В браузере</h2>
-      <p>Ничего ставить не нужно: друзья заходят по ссылке из Chrome, Safari, Edge — на компьютере и телефоне.</p>
-      <a class="btn" href="https://vmeste.red/">Открыть «Вместе»</a>
-    </div>
+    <p class="sub" id="sub">macOS 13 и новее · <a id="other-arch" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/Vmeste-Intel.dmg">у меня Mac с Intel</a> · <a href="#all">все версии</a></p>
   </div>
 
-  <h3>Как это работает</h3>
-  <div class="steps">
-    <div class="step"><b>Создайте комнату</b><span>на vmeste.red и отправьте ссылку друзьям</span></div>
-    <div class="step"><b>Выберите, что смотреть</b><span>ссылка на YouTube, VK Видео, Rutube — или фильм с вашего Mac</span></div>
-    <div class="step"><b>Смотрите вместе</b><span>пауза и перемотка у всех сразу, разница меньше кадра</span></div>
-  </div>
+  <main id="all">
+    <section id="choose">
+      <h2>Что вам нужно</h2>
+      <p class="sec-lead">Четыре частых случая — и что для каждого поставить.</p>
+      <div class="grid g2">
+        <div class="want" id="card-web">
+          <p class="q">Смотреть YouTube, VK Видео или стрим и разговаривать</p>
+          <p class="a"><b>Ничего ставить не нужно.</b> Комната открывается в браузере — на компьютере и на телефоне. Друзья заходят по ссылке.</p>
+          <a class="go" href="https://vmeste.red/">Открыть vmeste.red</a>
+        </div>
+        <div class="want">
+          <p class="q">Показать друзьям фильм, который лежит у меня на компьютере</p>
+          <p class="a"><b>Нужно приложение для компьютера.</b> Браузер не может сам открыть вашу папку с фильмами и не играет многие файлы. Приложение умеет и отправляет фильм друзьям напрямую.</p>
+          <a class="go" href="#desktop">Приложение для компьютера</a>
+        </div>
+        <div class="want">
+          <p class="q">Смотреть свои фильмы с телевизора или телефона</p>
+          <p class="a"><b>Нужен «Вместе Сервер»</b> на компьютере с фильмами. Он работает в фоне и открывает вашу медиатеку на других устройствах — по ссылке с паролем.</p>
+          <a class="go" href="#server">Как устроен «Вместе Сервер»</a>
+        </div>
+        <div class="want">
+          <p class="q">Смотреть на большом экране</p>
+          <p class="a"><b>Приложение для Android TV.</b> Фильм идёт на телевизоре и управляется пультом, а голос и чат остаются на телефоне.</p>
+          <a class="go" href="#devices">Телефон и телевизор</a>
+        </div>
+      </div>
+    </section>
 
-  <h3>Что умеет</h3>
-  <div class="features">
-    <div class="feature"><span class="e">🎬</span><b>Любые фильмы</b>mkv с несколькими озвучками и субтитрами, качество до 1080p</div>
-    <div class="feature"><span class="e">⏱️</span><b>Точно синхронно</b>все видят один и тот же кадр с точностью до миллисекунд</div>
-    <div class="feature"><span class="e">🎙️</span><b>Голос и чат</b>бесплатные звонки напрямую, фильм тише, когда кто-то говорит</div>
-    <div class="feature"><span class="e">🤝</span><b>Раздают друг другу</b>как торрент: зрители делятся кусками фильма, ваш интернет не перегружается</div>
-  </div>
+    <section id="desktop">
+      <h2>Приложение для компьютера</h2>
+      <p class="sec-lead">То же «Вместе», что и в браузере, плюс фильмы с вашего диска.</p>
+      <ul class="facts grid g3">
+        <li><b>Фильмы из вашей папки</b>Файлы mkv, несколько озвучек и субтитры, качество до 1080p. Озвучку можно переключать прямо во время просмотра.</li>
+        <li><b>Ничего не уходит в интернет</b>Фильм идёт друзьям напрямую с вашего компьютера, по зашифрованному соединению. Приложение видит только ту папку, которую вы выбрали.</li>
+        <li><b>Живёт рядом с часами</b>Комната открывается в своём окне. Окно можно закрыть — фильм продолжит идти у друзей, а значок останется в трее.</li>
+      </ul>
+      <div class="grid g3">
+        <div class="card" id="card-mac">
+          <h3>Mac</h3>
+          <p>macOS 13 и новее</p>
+          <a class="btn" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/Vmeste-AppleSilicon.dmg">Apple Silicon (M1–M5)</a>
+          <a class="btn alt" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/Vmeste-Intel.dmg">Intel</a>
+          <details>
+            <summary>Какой у меня Mac?</summary>
+            <p>Меню Apple → «Об этом Mac». Если написано «Чип: Apple M…» — это Apple Silicon. Если «Процессор: Intel…» — Intel.</p>
+          </details>
+          <details>
+            <summary>Как установить</summary>
+            <ol>
+              <li>Откройте скачанный файл <b>.dmg</b> и перетащите «Вместе» в «Программы».</li>
+              <li>Запустите и выберите папку с фильмами.</li>
+              <li>Значок дивана появится в строке меню.</li>
+            </ol>
+          </details>
+        </div>
+        <div class="card" id="card-windows">
+          <h3>Windows</h3>
+          <p>Windows 10 и 11, 64-бит</p>
+          <a class="btn" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/Vmeste-Setup.exe">Скачать установщик</a>
+          <a class="btn alt" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/Vmeste-windows.zip">Без установки (zip)</a>
+          <details>
+            <summary>Как установить</summary>
+            <ol>
+              <li>Запустите <b>Vmeste-Setup.exe</b>.</li>
+              <li>Если появится «Система Windows защитила ваш компьютер», нажмите «Подробнее» → «Выполнить в любом случае».</li>
+              <li>Выберите папку с фильмами. Если брандмауэр спросит про доступ к сети — разрешите.</li>
+            </ol>
+          </details>
+        </div>
+        <div class="card" id="card-linux">
+          <h3>Ubuntu и Linux</h3>
+          <p>Ubuntu 22.04+, Debian 12+, 64-бит</p>
+          <a class="btn" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/vmeste_amd64.deb">Скачать .deb</a>
+          <a class="btn alt" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/Vmeste-x86_64.AppImage">AppImage для других систем</a>
+          <details>
+            <summary>Как установить</summary>
+            <ol>
+              <li><code>sudo apt install ./vmeste_amd64.deb</code></li>
+              <li>Или AppImage: <code>chmod +x Vmeste-x86_64.AppImage</code> и запустить.</li>
+            </ol>
+          </details>
+        </div>
+      </div>
+    </section>
 
-  <div class="note">
-    <b>Файлы не уходят на сервер.</b> Фильм передаётся друзьям напрямую с вашего Mac, зашифрованным соединением. «Вместе» видит только папку, которую вы выбрали, и ничего не отправляет посторонним.
-  </div>
-</main>
-<footer>Вместе — видео с друзьями</footer>
+    <section id="server">
+      <div id="card-server"></div>
+      <h2>«Вместе Сервер»</h2>
+      <p class="sec-lead">Небольшая программа для компьютера, на котором лежат фильмы. Нужна, когда смотреть хочется не за ним, а с дивана.</p>
+      <div class="versus grid g2">
+        <div><b>Приложение</b>Вы сидите за компьютером с фильмами и смотрите с него. Фильм включаете сами, в окне комнаты.</div>
+        <div><b>Сервер</b>Компьютер просто включён и стоит в стороне. Фильм выбираете с телевизора, телефона или другого компьютера.</div>
+      </div>
+      <ol class="steps grid g3">
+        <li><b>Поставьте на компьютер с фильмами</b>Выберите папки и задайте пароль. Окно можно закрыть — программа останется в трее.</li>
+        <li><b>Скопируйте ссылку</b>Она выглядит так: <code>vmeste://lib/…</code>. Берётся из окна программы или из значка в трее.</li>
+        <li><b>Вставьте её во «Вместе»</b>На телевизоре, телефоне или в браузере — в поле для кода комнаты. Введите пароль, и появится список фильмов.</li>
+      </ol>
+      <div class="grid files">
+        <a class="btn" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/VmesteServer-AppleSilicon.dmg">Mac (M1–M5)</a>
+        <a class="btn" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/VmesteServer-Intel.dmg">Mac с Intel</a>
+        <a class="btn" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/VmesteServer-Setup.exe">Windows</a>
+        <a class="btn" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/vmeste-server_amd64.deb">Linux (.deb)</a>
+        <a class="btn" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/VmesteServer-x86_64.AppImage">Linux (AppImage)</a>
+      </div>
+      <p class="small">Компьютер должен быть включён и подключён к интернету. Фильмы остаются на нём: они идут к вам напрямую, а в ту же комнату можно позвать друзей.</p>
+      <details>
+        <summary>Установка на Linux</summary>
+        <p><code>sudo apt install ./vmeste-server_amd64.deb</code> (Ubuntu 22.04+, Debian 12+) или AppImage: <code>chmod +x VmesteServer-x86_64.AppImage</code> и запустить. Нужен рабочий стол (GNOME, KDE и другие). Если значка в трее не видно, снова откройте «Вместе Сервер» из меню приложений — появятся настройки.</p>
+      </details>
+    </section>
+
+    <section id="devices">
+      <h2>Телефон и телевизор</h2>
+      <p class="sec-lead">На телефоне «Вместе» работает и в браузере. Приложение удобнее тем, что ссылки-приглашения открываются сразу в нём.</p>
+      <div class="grid g3">
+        <div class="card" id="card-android">
+          <h3>Android</h3>
+          <p>Android 8 и новее. Комната, голос и чат на телефоне.</p>
+          <a class="btn" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/Vmeste.apk">Скачать APK</a>
+          <details>
+            <summary>Как установить</summary>
+            <ol>
+              <li>Откройте скачанный <b>Vmeste.apk</b>.</li>
+              <li>Если Android попросит, разрешите установку из этого источника и вернитесь назад.</li>
+              <li>При первом запуске разрешите микрофон — он нужен для голоса.</li>
+            </ol>
+          </details>
+        </div>
+        <div class="card" id="card-tv">
+          <h3>Android TV</h3>
+          <p>Android TV и Google TV: Sony, Philips, TCL, Xiaomi Mi Box, Chromecast с Google TV.</p>
+          <a class="btn" href="https://github.com/Tbasor/vmeste-download/releases/latest/download/Vmeste-TV.apk">Скачать APK для ТВ</a>
+          <details>
+            <summary>Как установить на телевизор</summary>
+            <ol>
+              <li>На телевизоре установите из Google Play приложение <b>Downloader</b> (или «Send files to TV»).</li>
+              <li>В настройках телевизора разрешите этому приложению установку из неизвестных источников.</li>
+              <li>В Downloader откройте адрес <code>tbasor.github.io/vmeste-download</code> и скачайте «APK для ТВ».</li>
+              <li>«Вместе» появится в списке приложений.</li>
+            </ol>
+          </details>
+        </div>
+        <div class="card" id="card-iphone">
+          <h3>iPhone</h3>
+          <p>Пока открывайте vmeste.red в Safari. Приложение сейчас раздаётся по приглашению в TestFlight и скоро появится в App Store.</p>
+          <a class="btn alt" href="https://vmeste.red/">Открыть в браузере</a>
+          <span class="btn off">Скоро в App Store</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <p class="note"><b>Ваши файлы остаются у вас.</b> Фильм передаётся друзьям напрямую с вашего компьютера по зашифрованному соединению и не загружается на наш сервер. «Вместе» видит только папки, которые вы выбрали сами.</p>
+    </section>
+  </main>
+
+  <footer>
+    <a class="wordmark" href="https://vmeste.red/" style="margin-left:0">Вместе</a><span>vmeste.red</span>
+    <span class="sp"></span>
+    <a href="https://vmeste.red/privacy.html">Конфиденциальность</a>
+    <a href="mailto:vmestelabs@gmail.com">Написать нам</a>
+  </footer>
+</div>
 <script>
-  // Main button: the file for this device. Mac: Apple Silicon by default (Safari can't tell the chip;
-  // Chrome/Edge can), Windows: installer, Linux: .deb, Android: APK; anything else: the full list.
+  // The main button offers the file for this device. Mac: Apple Silicon by default (Safari can't tell
+  // the chip; Chrome and Edge can), Windows: the installer, Linux: .deb, Android: the APK.
+  // An iPhone has nothing to download yet, so its main button opens the site.
   (async () => {
     const R = 'https://github.com/Tbasor/vmeste-download/releases/latest/download/';
     const ua = navigator.userAgent;
     const set = (file, label, sub) => {
       const a = document.getElementById('primary');
-      a.href = file.startsWith('#') ? file : R + file;
+      a.href = /^(#|https:)/.test(file) ? file : R + file;
       document.getElementById('primary-label').textContent = label;
       if (sub !== undefined) document.getElementById('sub').innerHTML = sub;
     };
-    const all = ' · <a href="#all">все версии</a> · <a href="https://vmeste.red/">или откройте в браузере</a>';
+    const all = ' · <a href="#all">все версии</a>';
     if (/Android/i.test(ua) && /\bTV\b|AFT|BRAVIA|GoogleTV|SMART-TV|Android TV/i.test(ua)) return set('Vmeste-TV.apk', 'Скачать для Android TV', 'Android TV и Google TV' + all);
     if (/Android/i.test(ua)) return set('Vmeste.apk', 'Скачать для Android', 'Android 8 и новее' + all);
-    if (/iPhone|iPad|iPod/i.test(ua)) return set('#card-iphone', 'Версии для всех устройств', 'iPhone — скоро в App Store' + all);
+    if (/iPhone|iPad|iPod/i.test(ua)) {
+      document.getElementById('second').style.display = 'none';
+      document.getElementById('primary').querySelector('svg').style.display = 'none';
+      return set('https://vmeste.red/', 'Открыть в браузере', 'Приложение для iPhone скоро появится в App Store' + all);
+    }
     if (/Windows/i.test(ua)) return set('Vmeste-Setup.exe', 'Скачать для Windows', 'Windows 10 и 11, 64-бит' + all);
     if (/Linux|X11/i.test(ua) && !/Mac/i.test(ua)) return set('vmeste_amd64.deb', 'Скачать для Ubuntu (.deb)', 'Ubuntu 22.04+, Debian 12+' + all);
     let arch = null;
